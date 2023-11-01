@@ -1,10 +1,9 @@
-package main
+package goProgressBar
 
 import (
 	"fmt"
 	"math"
 	"strings"
-	"time"
 )
 
 type ProgressBar struct {
@@ -16,7 +15,7 @@ type ProgressBar struct {
 	currentBarSize int64   //current number of Characters to represent bars
 }
 
-func getNewBar(totalElements int64, currentElements int64, symbol string, totalBarSize int64) ProgressBar {
+func GetNewBar(totalElements int64, currentElements int64, symbol string, totalBarSize int64) ProgressBar {
 
 	CurrentBar := int64(math.Ceil(float64(currentElements/totalElements) * 50))
 	bar := ProgressBar{
@@ -30,7 +29,7 @@ func getNewBar(totalElements int64, currentElements int64, symbol string, totalB
 	return bar
 }
 
-func (bar *ProgressBar) display(current int64) {
+func (bar *ProgressBar) Display(current int64) {
 
 	//update the current status
 	bar.current = current
@@ -44,25 +43,11 @@ func (bar *ProgressBar) display(current int64) {
 	//Generate the ProgressBar string
 	currentBar := strings.Repeat(bar.char, int(bar.currentBarSize))
 
+	//Generate the Format String
 	fmtString := fmt.Sprintf("\r[%%-%ds] %%3.2f%%%% %%8d/%%d", bar.totalBarSize)
-	//fmt.Printf("\r[%-50s] %3.2f%% %8d/%d", currentBar, bar.percentage, bar.current, bar.total)
 	fmt.Printf(fmtString, currentBar, bar.percentage, bar.current, bar.total)
 }
 
-func (bar *ProgressBar) end() {
+func (bar *ProgressBar) End() {
 	fmt.Println()
-}
-func main() {
-
-	var N int64 = 75
-	bar := getNewBar(N, 0, "#", 70)
-
-	for i := 0; i <= int(N); i++ {
-
-		time.Sleep(100 * time.Millisecond)
-		bar.display(int64(i))
-	}
-
-	bar.end()
-
 }
