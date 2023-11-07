@@ -1,5 +1,4 @@
-// package goProgressBar
-package main
+package goProgressBar
 
 import (
 	"fmt"
